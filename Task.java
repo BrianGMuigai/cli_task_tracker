@@ -1,5 +1,3 @@
-// This class create method and objects neeeded when creating new task sending the task to a file and confirming if the task are completed or not 
-
 public  class Task {
   
 
@@ -14,14 +12,14 @@ public  class Task {
 
     this.id = id;
     this.description= description;
-    this.Completed= false;
+    this.isCompleted= false;
 
   }
  
   // creating a method that accepts task from a file 
   // This method is a constructor overloading method since it accepts more params than the first one
   
-  Public Task( int id String description boolean isCompleted ){
+  public Task( int id, String description, boolean isCompleted ){
 
 
     this.id = id;
@@ -67,7 +65,6 @@ public  class Task {
   }
 
   // create a method that shows the state of the task
-  @override
 
  public String toString(){
   

@@ -15,7 +15,7 @@ public class  TaskTracker{
   private String filename;
 
   public TaskTracker (){
-     
+
     // this initializes an new empty task ArrayList
     this.tasks = new ArrayList <> ();
  
@@ -24,54 +24,50 @@ public class  TaskTracker{
  
     this.filename = "file.txt";
 
-    loadtask();
+    loadTasks();
 
-
-    Task newtask = new Task(nextId, description);
-
-    task.add
   }
-  
+
   // for adding new task into the ArrayList
    public void addTask (String description){
 
-     Task newTask = newTask(nextId, description);
-     
+     Task newTask = new Task(nextId, description);
+
+     tasks.add(newTask);
+    
      nextId++;
 
      saveTasks();
 
      System.out.println("✅ Task added: " + description);
+     }
 
+  public void listTasks (){
 
-  }
-  
-  public void listTask (){
-
-    if (task.isEmpty ()){
+    if (tasks.isEmpty ()){
 
       System.out.println("\n📋 No tasks yet! Add one to get started.\n");
-      
+
       return;
 
     }
-    
-    
+
+
     System.out.println("\n📋 Your Tasks:");
-    
+
     System.out.println("==================================================");
 
 
     for (Task task : tasks){
 
-    System.out.println(task)
-
-
-     System.out.println("==================================================\n");
-    
+    System.out.println(task);
 }
 
-  public void completeTask ( int taskId ){
+    System.out.println("==================================================\n");
+
+}
+
+public  void completeTask(int taskId) {
 
     for ( Task task : tasks){
 
@@ -80,14 +76,14 @@ public class  TaskTracker{
         task.markCompleted();
 
         saveTasks();
-   
+ 
        System.out.println("✅ Task " + taskId + " marked as complete!");
-     
+ 
       return;
 
       }
     }
-   
+ 
       System.out.println("❌ Task " + taskId + " not found.");
   }
 
@@ -99,22 +95,23 @@ public class  TaskTracker{
 
      try{
 
-       wirter = newPrintWriter(filename);
+       writer = new PrintWriter(filename);
 
-       for(Task task tasks){
+       for(Task task : tasks){
 
          writer.println(task.toFileFormat());
        }
 
+     }
        catch( FileNotFoundException e ){
 
-      
+
         System.out.println("⚠️  Error saving tasks: " + e.getMessage());
 
        }
  
        finally{
-         
+
          if(writer != null ){
 
           writer.close();
@@ -123,25 +120,25 @@ public class  TaskTracker{
        }
      }
 
-   private void saveTasks(){
+   private void loadTasks(){
 
-     File file  = newFile( filename );
+     File file  = new File( filename );
 
      if( !file.exists()){
 
      return;
-     
+
      }
 
      Scanner scan = null;
 
      try {
 
-     Scanner scan = new Scanner(file);
+      scan = new Scanner(file);
 
-     while ( scanner.hasNextLine()) {
+     while ( scan.hasNextLine()) {
 
-       String line = scanner.nextLine();
+       String line = scan.nextLine();
 
        if ( line.trim().isEmpty()){
 
@@ -154,42 +151,45 @@ public class  TaskTracker{
       if (parts.length != 3) {
 
         continue;
-        
+
       }
-      
+
       int id = Integer.parseInt(parts[0]);
 
        String description = parts[1];
 
        boolean isComplete = Boolean.parseBoolean(parts[2]);
 
-      Task task = new Task( id, description, isCompleted);
+      Task task = new Task( id, description, isComplete);
 
-      task.addTask();
+      tasks.add(task);
 
       if (id >= nextId) {
 
-        nextId = id + 1 ;  
-        
+        nextId = id + 1 ;
+
+      
       }
+
      }
-   }
+
+     }
 
    catch ( FileNotFoundException e ){
 
       System.out.println("⚠️  Error loading tasks: " + e.getMessage());
-   
+ 
    }
 
-   finally (){
+   finally{
 
-     if (scanner != null){
+     if (scan != null){
 
-       scanner.close();
+       scan.close();
 
      }
    }
 
    }
   }
-}
+

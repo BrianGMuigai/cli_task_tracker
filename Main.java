@@ -1,85 +1,124 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main{
+
+ public static void main (String[] args){
+  
+   //create a TaskTracker instance  to manage our task 
+  TaskTracker tracker = new TaskTracker();
+  
+  Scanner scanner = new Scanner(System.in);
+
+  boolean running = true;
 
 
-// creating a main class where a we can run the main code 
-
-public class CommandLineTaskTracker {
-
-   //Scanner scan = new Scanner (System.in);
-
-  public static void main(String[] args) {
+  //-------------------  WELCOME MESSAGE     ----------------
+  
+     System.out.println("\n╔══════════════════════════════════════╗");
+     System.out.println("║   WELCOME TO TASK TRACKER v1.0       ║");
+     System.out.println("║   Stay organized, get things done!   ║");
+     System.out.println("╚══════════════════════════════════════╝\n");
  
-     // instantiating a scan object 
 
-    Scanner scan = new Scanner (System.in);
-   /*
-    //testing if the scanner is working and finally commenting this block 
-   System.out.print("Enter your name: ");
-     String name = scan.nextLine();
-*/
 
-   System.out.println("**********************");
-   System.out.println("CommandLine Task Tracker");
-   System.out.println("**********************");
+     while (running) {
 
-   // creating a method that shows option 1 - 3
+
+        System.out.println("╔═══════════════════════════════╗");
+        System.out.println("║      TASK TRACKER MENU        ║");
+        System.out.println("╠═══════════════════════════════╣");
+        System.out.println("║  1. Add Task                  ║");
+        System.out.println("║  2. View Tasks                ║");    
+        System.out.println("║  3. Complete Task             ║");
+        System.out.println("║  4. Exit                      ║");
+        System.out.println("╚═══════════════════════════════╝");
+        System.out.print("Enter your choice (1-4): ");
+ 
+        try{
+
+
+          int choice = Integer.parseInt(scanner.nextLine());      
       
-  boolean isRunning = true;
+          switch (choice) {
+              
 
-   while ( isRunning != false) {
-  
-  
-   
-   System.out.print("Choose an option from 1 - 3 : ");
-   int choice = scan.nextInt();
-   System.out.println("*************************");
+            case 1:
 
-   System.out.println(" 1. Add Task");
-   System.out.println(" 2. View Task");
-   System.out.println(" 3. Complete Task");
-   System.out.println(" 4. Quit program");
-   System.out.println("*******************");
-  
-   
-   if( choice == 1 ){
-    
-   String task = addTask(scan);
-   }
+              System.out.println("\n--- Add New Task ---");
+              System.out.print("Enter task description: ");
 
-   else if( choice == 4 ){
-   
-    isRunning = false;
-    System.out.println("Thank you and welcome again");
-   
-   }
-   }
-  
-  }
- //creating a function to add task, complete task, view task
+              String description = scanner.nextLine();
 
-    public static   String addTask(Scanner scan) {
-     
-      String task = " ";
-        
-      boolean isValid = true;
-      
-    while (isValid != false){
-      
-      task = scan.nextLine();
-        
-      System.out.print("Enter your task : "); 
-      if (task.isBlank() & task.length() < 3 || task.length() > 100){    
-      
-    
-      System.out.print("Enter your task : "); 
-      
-      }  
-        else{
-      isValid = true;
-      System.out.println("You added Task:" + task);
-      }
-      }
-     return task;
-    }
+              if (description.trim().isEmpty()) {
+                
+                System.out.println("❌ Task description cannot be empty!");
 
+              }
+               else  {
+               
+                 tracker.addTask(description);
+                
+              }
+
+              break;
+
+             case 2:
+
+              tracker.listTasks();
+
+              break;
+
+
+             case 3:
+
+              System.out.println("\n--- Complete Task ---");
+              System.out.print("Enter task ID to complete: ");
+
+              try {
+
+                        
+             int taskId = Integer.parseInt(scanner.nextLine());   
+                
+                tracker.completeTask(taskId);
+
+              }
+
+              catch(InputMismatchException e) {
+
+                System.out.println("❌ Please enter a valid task ID (number).");
+
+                scanner.nextLine(); 
+              
+              }
+          
+              break;
+
+              case 4: 
+             
+              System.out.println("\n✨ Thank you for using Task Tracker!");
+              
+              System.out.println("Stay productive! 🚀\n");
+              
+              running = false;
+              
+              break;
+
+            default:
+
+             System.out.println("❌ Invalid choice! Please enter 1, 2, 3, or 4.\n");
+             
+             break;
+          }
+        } catch (InputMismatchException e){
+
+              System.out.println("❌ Please enter a number (1-4)!\n");
+
+             scanner.nextLine();
+        }  
+ }
+
+
+        scanner.close();
+ }
 }
